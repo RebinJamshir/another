@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fincorp POS System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Dashboard shown by default (login removed) -->
+
+    <!-- Main Application -->
+    <div id="mainApp" class="main-app" style="display:none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <span class="logo">💜</span>
+                <h1>Fincorp</h1>
+            </div>
+            <div class="header-center">
+                <span id="userDisplay">User: -</span>
+                <span class="separator">•</span>
+                <span id="roleDisplay">Role: -</span>
+            </div>
+            <div class="header-right">
+                <button id="navInventory" class="nav-btn" onclick="showScreen('pos')" style="display:none;">POS</button>
+                <button id="navInventoryBtn" class="nav-btn" onclick="showScreen('inventory')" style="display:none;">Inventory</button>
+                <button id="navInvoices" class="nav-btn" onclick="showScreen('invoices')" style="display:none;">Invoices</button>
+                <button class="nav-btn logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- POS Screen (Cashier) -->
+        <div id="posScreen" class="screen show">
+            <div class="pos-container">
+                <!-- Left: Scanner & Cart -->
+                <div class="pos-left">
+                    <div class="scanner-box">
+                        <h3>Barcode Scanner</h3>
+                        <input type="text" id="barcodeInput" placeholder="Scan barcode..." autofocus>
+                        <div class="qty-selector-group">
+                            <label for="qtyInput">Quantity:</label>
+                            <input type="number" id="qtyInput" value="1" min="1" step="1">
+                        </div>
+                        <button class="btn-add" onclick="addFromBarcode()">Add</button>
+                        <button class="btn-mobile-scan" onclick="openMobileScanner()">📱 Mobile Scan</button>
+                    </div>
+
+                    <div class="cart-box">
+                        <h3>Cart Items</h3>
+                        <div class="cart-items" id="cartItems">
+                            <p class="empty-state">Empty</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Summary -->
+                <div class="pos-right">
+                    <div class="summary-box">
+                        <div class="discount-input-group">
+                            <label for="discountInput">Discount %:</label>
+                            <input type="number" id="discountInput" placeholder="0" step="0.1" min="0" max="100" onchange="updateSummary()" oninput="updateSummary()">
+                            <span class="discount-badge" id="discountBadge">0%</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Discount</span>
+                            <span id="discountAmount">-$0.00</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Tax (10%)</span>
+                            <span id="tax">$0.00</span>
+                        </div>
+                        <div class="summary-line total-line">
+                            <span>Total</span>
+                            <span id="total">$0.00</span>
+                        </div>
+                        <button class="btn-checkout" onclick="checkout()">CHECKOUT</button>
+                        <button class="btn-secondary" onclick="clearCart()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Screen (Master) -->
+        <div id="inventoryScreen" class="screen">
+            <div class="inventory-container">
+                <!-- Left: Add Product -->
+                <div class="inventory-left">
+                    <div class="add-product-box">
+                        <h3>Add New Product</h3>
+                        <div class="form-group">
+                            <label>Barcode *</label>
+                            <input type="text" id="invBarcode" placeholder="Scan or enter barcode">
+                        </div>
+                        <div class="form-group">
+                            <label>Product Name *</label>
+                            <input type="text" id="invName" placeholder="Product name">
+                        </div>
+                        <div class="form-group">
+                            <label>Price *</label>
+                            <input type="number" id="invPrice" placeholder="0.00" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity *</label>
+                            <input type="number" id="invQty" placeholder="0" min="0">
+                        </div>
+                        <button class="btn-checkout" onclick="addProductInventory()">Add Product</button>
+                    </div>
+                </div>
+
+                <!-- Right: Inventory List -->
+                <div class="inventory-right">
+                    <div class="inventory-list-box">
+                        <h3>Current Inventory</h3>
+                        <div class="inventory-items" id="inventoryItems">
+                            <p class="empty-state">No products</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoices Screen (Master) -->
+        <div id="invoicesScreen" class="screen">
+            <div class="invoices-container">
+                <h2>Daily Invoices</h2>
+                <div class="invoices-list" id="invoicesList">
+                    <p class="empty-state">No invoices today</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receipt Modal -->
+        <div id="receiptModal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeReceipt()">&times;</span>
+                <div id="receiptContent" class="receipt"></div>
+                <div class="receipt-actions">
+                    <button onclick="printReceipt()" class="btn-print">Print</button>
+                    <button onclick="downloadReceipt()" class="btn-download">Download</button>
+                    <button onclick="closeReceipt()" class="btn-secondary">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
