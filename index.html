@@ -3,48 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Exam Countdown</title>
+  <title>LOOP // Retro Cassette Player</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=VT323&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #140e0b;
+      --panel: #2a1d17;
+      --tape: #3a2b24;
+      --tape-face: #d6bf97;
+      --accent: #f8882f;
+      --accent-2: #ffd27a;
+      --ink: #26180f;
+      --cream: #fef4dc;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "VT323", monospace;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 15% 10%, #5d3021 0%, transparent 35%),
+        radial-gradient(circle at 80% 90%, #3c1b2f 0%, transparent 25%),
+        linear-gradient(180deg, #1d1511 0%, #100a08 100%);
+      overflow-x: hidden;
+    }
+
+    .scanlines::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.06) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.25;
+      z-index: 10;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+      position: relative;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-family: "Permanent Marker", cursive;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--accent-2);
+      letter-spacing: 0.05em;
+      text-shadow: 0 4px 0 #74410f, 0 10px 20px var(--shadow);
+    }
+
+    .title p {
+      margin: 0.25rem 0 0;
+      font-size: clamp(1.2rem, 2vw, 1.8rem);
+      opacity: 0.9;
+    }
+
+    .cassette {
+      position: relative;
+      background: linear-gradient(145deg, #4b382f, var(--tape));
+      border-radius: 22px;
+      border: 4px solid #22140f;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), inset 0 2px 0 rgba(255,255,255,0.09);
+      padding: clamp(1rem, 3vw, 2rem);
+      transform: rotate(-0.8deg);
+      animation: wiggle 8s ease-in-out infinite;
+    }
+
+    .cassette-label {
+      background: var(--tape-face);
+      color: var(--ink);
+      border-radius: 14px;
+      padding: 1rem;
+      border: 3px solid #bca27a;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
+    }
+
+    .label-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: clamp(1.1rem, 2vw, 1.6rem);
+      text-transform: uppercase;
+      border-bottom: 2px dashed rgba(38,24,15,0.45);
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .tag {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.15rem 0.65rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+    }
+
+    .reel-window {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(120px, 220px));
+      justify-content: center;
+      align-items: center;
+      gap: clamp(1rem, 8vw, 8rem);
+      margin: 1rem 0 1.2rem;
+    }
+
+    .reel {
+      width: clamp(120px, 24vw, 220px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 8px solid #281912;
+      background: radial-gradient(circle, #ead5b2 0 25%, #9c7f5b 26% 44%, #5c4739 45% 100%);
+      position: relative;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.2), 0 8px 12px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .reel::before,
+    .reel::after {
+      content: "";
+      position: absolute;
+      inset: 20%;
+      border: 4px solid rgba(38,24,15,0.5);
+      border-radius: 50%;
+    }
+
+    .spokes {
+      position: absolute;
+      inset: 0;
+      animation: spin 2.2s linear infinite;
+    }
+
+    .reel.right .spokes { animation-direction: reverse; animation-duration: 1.8s; }
+
+    .spokes span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 7px;
+      height: 40%;
+      border-radius: 10px;
+      background: rgba(32, 17, 10, 0.6);
+      transform-origin: center -10%;
+      margin-left: -3.5px;
+    }
+
+    .spokes span:nth-child(1) { transform: rotate(0deg); }
+    .spokes span:nth-child(2) { transform: rotate(72deg); }
+    .spokes span:nth-child(3) { transform: rotate(144deg); }
+    .spokes span:nth-child(4) { transform: rotate(216deg); }
+    .spokes span:nth-child(5) { transform: rotate(288deg); }
+
+    .embed {
+      margin-top: 1.25rem;
+      border: 3px solid #2f2018;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.35);
+      background: #fff8ed;
+    }
+
+    .caption {
+      text-align: center;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      margin-top: 1rem;
+      letter-spacing: 0.04em;
+      color: #ffe8bf;
+    }
+
+    .glow {
+      position: absolute;
+      inset: auto 10% -30px;
+      height: 60px;
+      filter: blur(30px);
+      background: linear-gradient(90deg, transparent, rgba(255,136,47,0.35), transparent);
+      pointer-events: none;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-0.8deg) translateY(0); }
+      50% { transform: rotate(0.5deg) translateY(-4px); }
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+  </style>
 </head>
-<body>
-  <div class="liquid-bg" aria-hidden="true">
-    <span class="blob blob-1"></span>
-    <span class="blob blob-2"></span>
-    <span class="blob blob-3"></span>
-    <span class="blob blob-4"></span>
-  </div>
+<body class="scanlines">
+  <main class="wrap">
+    <header class="title">
+      <h1>LOOP MIXTAPE</h1>
+      <p>Press Play • Rewind Vibes • Analog Dreams</p>
+    </header>
 
-  <main class="page">
-    <section class="glass hero">
-      <p class="eyebrow">Final Target · May 25, 2026</p>
-      <h1>Exam Countdown</h1>
-      <div class="hero-days" id="mainDays">--</div>
-      <p class="hero-sub">days left</p>
-    </section>
+    <section class="cassette" aria-label="Retro cassette styled Apple Music player">
+      <div class="cassette-label">
+        <div class="label-top">
+          <span>Playlist: Loop</span>
+          <span class="tag">Apple Music</span>
+        </div>
 
-    <section class="glass deadlines">
-      <h2>Deadlines</h2>
-      <div class="deadline-grid" id="deadlineGrid"></div>
-    </section>
-
-    <section class="glass timeline-section">
-      <h2>Interactive Timeline Dial</h2>
-      <div class="dial-wrap">
-        <div class="dial" id="dial" role="slider" aria-label="Subject timeline dial" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
-          <div class="dial-ring"></div>
-          <div class="markers" id="markers"></div>
-          <div class="dial-center">
-            <p id="selectedSubject">COA</p>
-            <h3 id="selectedDays">-- days left</h3>
+        <div class="reel-window" aria-hidden="true">
+          <div class="reel left">
+            <div class="spokes"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="reel right">
+            <div class="spokes"><span></span><span></span><span></span><span></span><span></span></div>
           </div>
         </div>
+
+        <div class="embed">
+          <iframe
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+            frameborder="0"
+            height="450"
+            style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;display:block;margin:auto"
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+            src="https://embed.music.apple.com/in/playlist/loop/pl.u-kv9lbpjCaArA1d"
+            title="Apple Music playlist: Loop"></iframe>
+        </div>
       </div>
+      <div class="caption">Artwork and tracklist are shown directly inside the Apple Music cassette window.</div>
+      <span class="glow" aria-hidden="true"></span>
     </section>
   </main>
-
-  <script src="app.js"></script>
 </body>
 </html>
