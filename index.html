@@ -3,45 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Exam Countdown</title>
+  <title>Loop Tape Deck</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="liquid-bg" aria-hidden="true">
-    <span class="blob blob-1"></span>
-    <span class="blob blob-2"></span>
-    <span class="blob blob-3"></span>
-    <span class="blob blob-4"></span>
-  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
 
   <main class="page">
-    <section class="glass hero">
-      <p class="eyebrow">Final Target · May 25, 2026</p>
-      <h1>Exam Countdown</h1>
-      <div class="hero-days" id="mainDays">--</div>
-      <p class="hero-sub">days left</p>
-    </section>
+    <header class="hero">
+      <p class="chip">Retro playback mode</p>
+      <h1>LOOP — Cassette Edition</h1>
+      <p class="subtitle">Press play and let the reels spin while your playlist rolls.</p>
+    </header>
 
-    <section class="glass deadlines">
-      <h2>Deadlines</h2>
-      <div class="deadline-grid" id="deadlineGrid"></div>
-    </section>
+    <section class="cassette-shell" aria-label="Cassette tape player">
+      <div class="cassette-top">
+        <p class="label">APPLE MUSIC MIXTAPE</p>
+        <p class="label small">Side A · Chill / Loop / Night Drive</p>
+      </div>
 
-    <section class="glass timeline-section">
-      <h2>Interactive Timeline Dial</h2>
-      <div class="dial-wrap">
-        <div class="dial" id="dial" role="slider" aria-label="Subject timeline dial" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
-          <div class="dial-ring"></div>
-          <div class="markers" id="markers"></div>
-          <div class="dial-center">
-            <p id="selectedSubject">COA</p>
-            <h3 id="selectedDays">-- days left</h3>
-          </div>
+      <div class="window-row">
+        <div class="reel" id="reelLeft">
+          <div class="spokes"></div>
+          <div class="hub"></div>
+        </div>
+        <div class="tape-window"></div>
+        <div class="reel" id="reelRight">
+          <div class="spokes"></div>
+          <div class="hub"></div>
         </div>
       </div>
+
+      <div class="embed-wrap">
+        <iframe
+          title="Apple Music playlist"
+          allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+          frameborder="0"
+          height="450"
+          style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;"
+          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+          src="https://embed.music.apple.com/in/playlist/loop/pl.u-kv9lbpjCaArA1d"></iframe>
+      </div>
+
+      <div class="cassette-bottom">
+        <span>▶ PLAY</span>
+        <span>▮▮ PAUSE</span>
+        <span>■ STOP</span>
+      </div>
+    </section>
+
+    <section class="song-list" aria-label="Featured songs">
+      <h2>Track Vibes</h2>
+      <ul>
+        <li>Dreamy synth layers</li>
+        <li>Midnight lo-fi textures</li>
+        <li>Warm analog grooves</li>
+        <li>Repeat-worthy hooks</li>
+      </ul>
+      <p>Use the Apple Music player above to view full artwork, song list, and playback controls.</p>
     </section>
   </main>
 
