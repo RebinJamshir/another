@@ -3,48 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Exam Countdown</title>
+  <title>Book Rebin Live</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="liquid-bg" aria-hidden="true">
-    <span class="blob blob-1"></span>
-    <span class="blob blob-2"></span>
-    <span class="blob blob-3"></span>
-    <span class="blob blob-4"></span>
-  </div>
-
   <main class="page">
-    <section class="glass hero">
-      <p class="eyebrow">Final Target · May 25, 2026</p>
-      <h1>Exam Countdown</h1>
-      <div class="hero-days" id="mainDays">--</div>
-      <p class="hero-sub">days left</p>
+    <section class="hero-card">
+      <p class="pill">Live Booking Open</p>
+      <h1>Book Rebin for Your Event</h1>
+      <p class="subtitle">Planning a concert, college fest, private party, or cultural night? Click below and reserve your date with Rebin in just one step.</p>
+
+      <a class="cta" href="https://calendly.com/your-booking-link" target="_blank" rel="noopener noreferrer">
+        Book Your Date Now
+      </a>
+
+      <p class="note">You will be redirected to the booking calendar to choose an available date and submit event details.</p>
     </section>
 
-    <section class="glass deadlines">
-      <h2>Deadlines</h2>
-      <div class="deadline-grid" id="deadlineGrid"></div>
-    </section>
+    <section class="info-grid" aria-label="Booking details">
+      <article class="info-card">
+        <h2>Events Covered</h2>
+        <ul>
+          <li>College & university shows</li>
+          <li>Private parties</li>
+          <li>Corporate events</li>
+          <li>Festivals & live nights</li>
+        </ul>
+      </article>
 
-    <section class="glass timeline-section">
-      <h2>Interactive Timeline Dial</h2>
-      <div class="dial-wrap">
-        <div class="dial" id="dial" role="slider" aria-label="Subject timeline dial" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
-          <div class="dial-ring"></div>
-          <div class="markers" id="markers"></div>
-          <div class="dial-center">
-            <p id="selectedSubject">COA</p>
-            <h3 id="selectedDays">-- days left</h3>
-          </div>
-        </div>
-      </div>
+      <article class="info-card">
+        <h2>How Booking Works</h2>
+        <ol>
+          <li>Click the booking button</li>
+          <li>Pick your available date</li>
+          <li>Fill your event details</li>
+          <li>Get confirmation from team Rebin</li>
+        </ol>
+      </article>
     </section>
   </main>
-
-  <script src="app.js"></script>
 </body>
 </html>
